@@ -1,0 +1,30 @@
+﻿<Window x:Class="SPHDecode.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SPHDecode"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="145" Width="405">
+    <Grid DataContext="{StaticResource MainWindowModel}">
+        <StackPanel HorizontalAlignment="Left" Width="375" Margin="10,10,0,0" VerticalAlignment="Top">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="0,5,0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <DockPanel>
+                <Button Command="{Binding Path=srcFileDialog}" Content="Source File" Width="70" />
+                <TextBox Text="{Binding Path=srcFile}" Width="300" Margin="0,5,0,5" IsReadOnly="True"/>
+            </DockPanel>
+            <DockPanel>
+                <Button Command="{Binding Path=dstFileDialog}" Content="Save File" Width="70" />
+                <TextBox Text="{Binding Path=dstFile}" Width="300" Margin="0,5,0,5" IsReadOnly="True"/>
+            </DockPanel>
+            <DockPanel>
+                <Button Width="185" Command="{Binding Path=decrypt}" Content="decrypt"/>
+                <Button Width="185" Command="{Binding Path=encrypt}" Content="encrypt"/>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</Window>

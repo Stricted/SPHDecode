@@ -1,0 +1,12 @@
+﻿<Application x:Class="SPHDecode.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SPHDecode"
+             xmlns:model="clr-namespace:SPHDecode.Model"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <model:MainWindowModel x:Key="MainWindowModel"></model:MainWindowModel>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
