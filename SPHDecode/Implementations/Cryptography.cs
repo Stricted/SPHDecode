@@ -3,6 +3,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
+using System.Windows;
 using System.Xml;
 
 namespace SPHDecode.Implementations
@@ -43,25 +45,23 @@ namespace SPHDecode.Implementations
             catch (Exception ex)
             {
                 LogManager.WriteToLog(ex.Message);
-                // TODO: show error message
+                new Thread(() => { MessageBox.Show("unable to decrypt config file", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error); }).Start();
+                return null;
             }
 
             if (response.EndsWith("\0"))
                 response = response.Substring(0, response.Length - 1);
 
-            if (IsValidXML(response))
+            if (IsValidXML(response).Equals(false))
             {
-                return response;
-            }
-            else
-            {
-                // TODO: show error message
+                new Thread(() => { MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error); }).Start();
+                return string.Empty;
             }
 
-            return string.Empty;
+            return response;
         }
 
-        public static byte[] Enecrypt(string data)
+        public static byte[] Encrypt(string data)
         {
             byte[] response = null;
 
@@ -70,7 +70,8 @@ namespace SPHDecode.Implementations
 
             if (IsValidXML(data).Equals(false))
             {
-                // TODO: show error message
+                new Thread(() => { MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error); }).Start();
+                return null;
             }
 
             byte[] clearText = Encoding.UTF8.GetBytes(data);
@@ -103,7 +104,8 @@ namespace SPHDecode.Implementations
             catch (Exception ex)
             {
                 LogManager.WriteToLog(ex.Message);
-                // TODO: show error message
+                new Thread(() => { MessageBox.Show("unable to encrypt config file", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error); }).Start();
+                return null;
             }
 
             return response;

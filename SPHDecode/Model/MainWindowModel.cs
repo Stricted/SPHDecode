@@ -71,15 +71,17 @@ namespace SPHDecode.Model
         private void OnencryptExecute()
         {
             string orig = File.ReadAllText(srcFile);
-            byte[] encode = Cryptography.Enecrypt(orig);
-            File.WriteAllBytes(dstFile, encode);
+            byte[] encode = Cryptography.Encrypt(orig);
+            if (Object.Equals(encode, null).Equals(false))
+                File.WriteAllBytes(dstFile, encode);
         }
 
         private void OndecryptExecute()
         {
             byte[] orig = File.ReadAllBytes(srcFile);
             string decode = Cryptography.Decrypt(orig);
-            File.WriteAllText(dstFile, decode);
+            if (string.IsNullOrWhiteSpace(decode).Equals(false))
+                File.WriteAllText(dstFile, decode);
         }
 
         public MainWindowModel()
