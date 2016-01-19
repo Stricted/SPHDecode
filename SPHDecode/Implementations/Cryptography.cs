@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml;
 
 namespace SPHDecode.Implementations
 {
@@ -48,7 +49,7 @@ namespace SPHDecode.Implementations
             if (response.EndsWith("\0"))
                 response = response.Substring(0, response.Length - 1);
 
-            if (IsXML(response))
+            if (IsValidXML(response))
             {
                 return response;
             }
@@ -64,13 +65,13 @@ namespace SPHDecode.Implementations
         {
             byte[] response = null;
 
-            if (IsXML(data).Equals(false))
+            if (data.EndsWith("\0").Equals(false))
+                data = string.Concat(data, "\0");
+
+            if (IsValidXML(data).Equals(false))
             {
                 // TODO: show error message
             }
-
-            if (data.EndsWith("\0").Equals(false))
-                data = string.Concat(data, "\0");
 
             byte[] clearText = Encoding.UTF8.GetBytes(data);
 
@@ -108,14 +109,23 @@ namespace SPHDecode.Implementations
             return response;
         }
 
-        public static bool IsXML(string xml)
+        private static bool IsValidXML(string value)
         {
-            string xmlHeader = "<?xml version=\"1.0\" ?>";
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
 
-            if (xml.Substring(0, xmlHeader.Length).Equals(xmlHeader))
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+
+                xmlDoc.LoadXml(value);
+                    
                 return true;
-
-            return false;
+            }
+            catch (XmlException)
+            {
+                return false;
+            }
         }
 
         public static string DecompressData(byte[] data)
