@@ -41,7 +41,8 @@ namespace SPHDecode.Implementations
             }
             catch (Exception ex)
             {
-                throw ex;
+                LogManager.WriteToLog(ex.Message);
+                // TODO: show error message
             }
 
             if (response.EndsWith("\0"))
@@ -53,39 +54,19 @@ namespace SPHDecode.Implementations
             }
             else
             {
-                // show error
+                // TODO: show error message
             }
 
             return string.Empty;
         }
 
-        public static string DecompressData(byte[] data)
-        {
-            MemoryStream stream = new MemoryStream(data, 2, data.Length - 2);
-            DeflateStream inflater = new DeflateStream(stream, CompressionMode.Decompress);
-            StreamReader streamReader = new StreamReader(inflater);
-
-            return streamReader.ReadToEnd();
-        }
-
-        public static byte[] CompressData(byte[] data)
-        {
-            MemoryStream ms = new MemoryStream();
-            Stream s = new zlib.ZOutputStream(ms, 9);
-            s.Write(data, 0, data.Length);
-            s.Close();
-
-            return ms.ToArray();
-        }
-
-
         public static byte[] Enecrypt(string data)
         {
-            byte[] response;
+            byte[] response = null;
 
             if (IsXML(data).Equals(false))
             {
-                // show error
+                // TODO: show error message
             }
 
             if (data.EndsWith("\0").Equals(false))
@@ -120,7 +101,8 @@ namespace SPHDecode.Implementations
             }
             catch (Exception ex)
             {
-                throw ex;
+                LogManager.WriteToLog(ex.Message);
+                // TODO: show error message
             }
 
             return response;
@@ -134,6 +116,25 @@ namespace SPHDecode.Implementations
                 return true;
 
             return false;
+        }
+
+        public static string DecompressData(byte[] data)
+        {
+            MemoryStream stream = new MemoryStream(data, 2, data.Length - 2);
+            DeflateStream inflater = new DeflateStream(stream, CompressionMode.Decompress);
+            StreamReader streamReader = new StreamReader(inflater);
+
+            return streamReader.ReadToEnd();
+        }
+
+        public static byte[] CompressData(byte[] data)
+        {
+            MemoryStream ms = new MemoryStream();
+            Stream s = new zlib.ZOutputStream(ms, 9);
+            s.Write(data, 0, data.Length);
+            s.Close();
+
+            return ms.ToArray();
         }
     }
 }
