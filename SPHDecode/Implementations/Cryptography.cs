@@ -19,27 +19,9 @@ namespace SPHDecode.Implementations
 
             try
             {
-                Aes encryptor = Aes.Create();
+                byte[] data = AESHelper(clearText, true);
 
-                if (Object.Equals(encryptor, null))
-                {
-                    return null;
-                }
-
-                encryptor.KeySize = 256;
-                encryptor.BlockSize = 128;
-                encryptor.Mode = CipherMode.CBC;
-                encryptor.Padding = PaddingMode.Zeros;
-                encryptor.Key = KEY;
-                encryptor.IV = IV;
-
-                MemoryStream ms = new MemoryStream();
-                CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write);
-
-                cs.Write(clearText, 0, clearText.Length);
-                cs.Close();
-
-                response = DecompressData(ms.ToArray());
+                response = GZip.DecompressData(data);
             }
             catch (Exception ex)
             {
@@ -51,7 +33,7 @@ namespace SPHDecode.Implementations
             if (response.EndsWith("\0"))
                 response = response.Substring(0, response.Length - 1);
 
-            if (IsValidXML(response).Equals(false))
+            if (util.IsValidXML(response).Equals(false))
             {
                 MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return string.Empty;
@@ -64,7 +46,7 @@ namespace SPHDecode.Implementations
         {
             byte[] response = null;
 
-            if (IsValidXML(data).Equals(false))
+            if (util.IsValidXML(data).Equals(false))
             {
                 MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
@@ -77,28 +59,9 @@ namespace SPHDecode.Implementations
 
             try
             {
-                byte[] comp = CompressData(clearText);
-                Aes encryptor = Aes.Create();
+                byte[] comp = GZip.CompressData(clearText);
 
-                if (Object.Equals(encryptor, null))
-                {
-                    return null;
-                }
-
-                encryptor.KeySize = 256;
-                encryptor.BlockSize = 128;
-                encryptor.Mode = CipherMode.CBC;
-                encryptor.Padding = PaddingMode.Zeros;
-                encryptor.Key = KEY;
-                encryptor.IV = IV;
-
-                MemoryStream ms = new MemoryStream();
-                CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write);
-
-                cs.Write(comp, 0, comp.Length);
-                cs.Close();
-
-                response = ms.ToArray();
+                response = AESHelper(comp);
             }
             catch (Exception ex)
             {
@@ -110,45 +73,38 @@ namespace SPHDecode.Implementations
             return response;
         }
 
-        private static bool IsValidXML(string value)
+        private static byte[] AESHelper (byte[] data, bool decrypt = false)
         {
-            if (string.IsNullOrWhiteSpace(value))
-                return false;
+            Aes encryptor = Aes.Create();
 
-            if (value.EndsWith("\0"))
-                value = value.Substring(0, value.Length - 1);
-
-            try
+            if (Object.Equals(encryptor, null))
             {
-                XmlDocument xmlDoc = new XmlDocument();
-
-                xmlDoc.LoadXml(value);
-                    
-                return true;
+                return null;
             }
-            catch (XmlException)
-            {
-                return false;
-            }
-        }
 
-        public static string DecompressData(byte[] data)
-        {
-            MemoryStream stream = new MemoryStream(data, 2, data.Length - 2);
-            DeflateStream inflater = new DeflateStream(stream, CompressionMode.Decompress);
-            StreamReader streamReader = new StreamReader(inflater);
+            encryptor.KeySize = 256;
+            encryptor.BlockSize = 128;
+            encryptor.Mode = CipherMode.CBC;
+            encryptor.Padding = PaddingMode.Zeros;
+            encryptor.Key = KEY;
+            encryptor.IV = IV;
 
-            return streamReader.ReadToEnd();
-        }
-
-        public static byte[] CompressData(byte[] data)
-        {
             MemoryStream ms = new MemoryStream();
-            Stream s = new zlib.ZOutputStream(ms, 9);
-            s.Write(data, 0, data.Length);
-            s.Close();
+            CryptoStream cs;
+            if (decrypt)
+            {
+                cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write);
+            }
+            else {
+                cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write);
+            }
+
+            cs.Write(data, 0, data.Length);
+            cs.Close();
 
             return ms.ToArray();
         }
+
+
     }
 }

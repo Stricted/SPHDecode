@@ -69,8 +69,10 @@
     </Compile>
     <Compile Include="Implementations\Cryptography.cs" />
     <Compile Include="Implementations\DelegateCommand.cs" />
+    <Compile Include="Implementations\GZip.cs" />
     <Compile Include="Implementations\LogManager.cs" />
     <Compile Include="Implementations\SuperViewModel.cs" />
+    <Compile Include="Implementations\util.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
