@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SPHDecode"
         mc:Ignorable="d"
-        Title="MainWindow" Height="145" Width="405">
+        Title="SPHDecode" Height="145" Width="405">
     <Grid DataContext="{StaticResource MainWindowModel}">
         <StackPanel HorizontalAlignment="Left" Width="375" Margin="10,10,0,0" VerticalAlignment="Top">
             <StackPanel.Resources>
