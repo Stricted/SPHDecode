@@ -2,6 +2,7 @@
 using SPHDecode.Implementations;
 using Microsoft.Win32;
 using System.IO;
+using System.Windows;
 
 namespace SPHDecode.Model
 {
@@ -73,7 +74,10 @@ namespace SPHDecode.Model
             string orig = File.ReadAllText(srcFile);
             byte[] encode = Cryptography.Encrypt(orig);
             if (Object.Equals(encode, null).Equals(false))
+            {
                 File.WriteAllBytes(dstFile, encode);
+                MessageBox.Show("config encrypted successfully", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void OndecryptExecute()
@@ -81,7 +85,10 @@ namespace SPHDecode.Model
             byte[] orig = File.ReadAllBytes(srcFile);
             string decode = Cryptography.Decrypt(orig);
             if (string.IsNullOrWhiteSpace(decode).Equals(false))
+            {
                 File.WriteAllText(dstFile, decode);
+                MessageBox.Show("config decrypted successfully", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         public MainWindowModel()

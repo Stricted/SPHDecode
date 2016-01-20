@@ -3,7 +3,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
 using System.Windows;
 using System.Xml;
 
@@ -45,7 +44,7 @@ namespace SPHDecode.Implementations
             catch (Exception ex)
             {
                 LogManager.WriteToLog(ex.Message);
-                new Thread(() => { MessageBox.Show("unable to decrypt config file", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error); }).Start();
+                MessageBox.Show("unable to decrypt config file", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
 
@@ -54,7 +53,7 @@ namespace SPHDecode.Implementations
 
             if (IsValidXML(response).Equals(false))
             {
-                new Thread(() => { MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error); }).Start();
+                MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return string.Empty;
             }
 
@@ -65,14 +64,14 @@ namespace SPHDecode.Implementations
         {
             byte[] response = null;
 
-            if (data.EndsWith("\0").Equals(false))
-                data = string.Concat(data, "\0");
-
             if (IsValidXML(data).Equals(false))
             {
-                new Thread(() => { MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error); }).Start();
+                MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
+
+            if (data.EndsWith("\0").Equals(false))
+                data = string.Concat(data, "\0");
 
             byte[] clearText = Encoding.UTF8.GetBytes(data);
 
@@ -104,7 +103,7 @@ namespace SPHDecode.Implementations
             catch (Exception ex)
             {
                 LogManager.WriteToLog(ex.Message);
-                new Thread(() => { MessageBox.Show("unable to encrypt config file", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error); }).Start();
+                MessageBox.Show("unable to encrypt config file", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
 
@@ -115,6 +114,9 @@ namespace SPHDecode.Implementations
         {
             if (string.IsNullOrWhiteSpace(value))
                 return false;
+
+            if (value.EndsWith("\0"))
+                value = value.Substring(0, value.Length - 1);
 
             try
             {
