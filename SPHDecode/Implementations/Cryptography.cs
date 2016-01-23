@@ -90,15 +90,11 @@ namespace SPHDecode.Implementations
             encryptor.IV = IV;
 
             MemoryStream ms = new MemoryStream();
-            CryptoStream cs;
-            if (decrypt)
-            {
-                cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write);
-            }
-            else {
-                cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write);
-            }
+            CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write);
 
+            if (decrypt)
+                cs = new CryptoStream(ms, encryptor.CreateDecryptor(), CryptoStreamMode.Write);
+            
             cs.Write(data, 0, data.Length);
             cs.Close();
 

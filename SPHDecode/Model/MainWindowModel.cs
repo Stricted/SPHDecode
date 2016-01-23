@@ -72,6 +72,12 @@ namespace SPHDecode.Model
         private void OnencryptExecute()
         {
             string orig = File.ReadAllText(srcFile);
+            // remove BOM from utf-8 file
+            orig = orig.Replace("\ufeff", "");
+
+            // replace windows with unix line endings
+            orig = orig.Replace("\r\n", "\n").Replace("\r", "\n");
+
             byte[] encode = Cryptography.Encrypt(orig);
             if (Object.Equals(encode, null).Equals(false))
             {
