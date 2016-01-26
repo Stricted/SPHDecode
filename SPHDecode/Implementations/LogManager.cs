@@ -22,7 +22,7 @@ namespace SPHDecode.Implementations
                 catch (Exception ex)
                 {
                     // nothing
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.ToString());
                 }
             }).Start();
         }

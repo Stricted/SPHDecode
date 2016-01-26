@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SPHDecode"
         mc:Ignorable="d"
-        Title="SPHDecode" Height="160" Width="405">
+        Title="SPHDecode" Height="145" Width="405">
     <Grid DataContext="{StaticResource MainWindowModel}">
         <StackPanel HorizontalAlignment="Left" Width="375" Margin="10,10,0,0" VerticalAlignment="Top">
             <StackPanel.Resources>
@@ -15,25 +15,15 @@
             </StackPanel.Resources>
             <DockPanel>
                 <Button Command="{Binding Path=srcFileDialog}" Content="Source File" Width="70" />
-                <TextBox Text="{Binding Path=srcFile}" Width="270" Margin="0,5,0,5" IsReadOnly="True"/>
-                <Button Command="{Binding Path=LoadConfig}" Content="Load"/>
+                <TextBox Text="{Binding Path=srcFile}" Width="300" Margin="0,5,0,5" IsReadOnly="True"/>
             </DockPanel>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Width="187">
-                    <TextBlock Text="Telnet" />
-                    <TextBlock Text="Username" />
-                    <TextBlock Text="Passwort" />
-                </StackPanel>
-                <StackPanel Width="187">
-                    <CheckBox IsChecked="{Binding Path=telnet,Mode=TwoWay}"/>
-                    <TextBox Text="{Binding Path=username,Mode=TwoWay}" />
-                    <TextBox Text="{Binding Path=password,Mode=TwoWay}"/>
-                </StackPanel>
-            </StackPanel>
             <DockPanel>
                 <Button Command="{Binding Path=dstFileDialog}" Content="Save File" Width="70" />
-                <TextBox Text="{Binding Path=dstFile}" Width="270" Margin="0,5,0,5" IsReadOnly="True"/>
-                <Button Command="{Binding Path=SaveConfig}" Content="save"/>
+                <TextBox Text="{Binding Path=dstFile}" Width="300" Margin="0,5,0,5" IsReadOnly="True"/>
+            </DockPanel>
+            <DockPanel>
+                <Button Width="185" Command="{Binding Path=decrypt}" Content="decrypt"/>
+                <Button Width="185" Command="{Binding Path=encrypt}" Content="encrypt"/>
             </DockPanel>
         </StackPanel>
     </Grid>
