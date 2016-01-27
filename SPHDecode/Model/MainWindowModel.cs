@@ -72,7 +72,7 @@ namespace SPHDecode.Model
         private void OnencryptExecute()
         {
             byte[] orig = File.ReadAllBytes(srcFile);
-            byte[] encode = Cryptography.Encrypt(orig);
+            byte[] encode = Cryptography.Encrypt(util.addNullByte(orig));
 
             if (Object.Equals(encode, null).Equals(false))
             {
@@ -84,7 +84,7 @@ namespace SPHDecode.Model
         private void OndecryptExecute()
         {
             byte[] orig = File.ReadAllBytes(srcFile);
-            byte[] decode = Cryptography.Decrypt(orig);
+            byte[] decode = util.removeNullByte(Cryptography.Decrypt(orig));
 
             if (Object.Equals(decode, null).Equals(false))
             {

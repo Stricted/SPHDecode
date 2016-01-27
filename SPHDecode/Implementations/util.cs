@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 
 namespace SPHDecode.Implementations
 {
@@ -25,6 +26,32 @@ namespace SPHDecode.Implementations
                 LogManager.WriteToLog(ex.Message);
                 return false;
             }
+        }
+
+        public static byte[] removeNullByte (byte[] data)
+        {
+            if (data[data.Length - 1].Equals(0))
+            {
+                byte[] tmp = new byte[data.Length - 1];
+                Array.Copy(data, tmp, data.Length - 1);
+
+                return tmp;
+            }
+
+            return data;
+        }
+
+        public static byte[] addNullByte (byte[] data)
+        {
+            if (data[data.Length - 1].Equals(0).Equals(false))
+            {
+                byte[] tmp = data;
+                Array.Resize(ref tmp, tmp.Length + 1);
+
+                return tmp;
+            }
+
+            return data;
         }
     }
 }
