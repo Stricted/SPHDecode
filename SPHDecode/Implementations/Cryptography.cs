@@ -28,7 +28,7 @@ namespace SPHDecode.Implementations
                 return null;
             }
             
-            if (util.IsValidXML(Encoding.UTF8.GetString(response)).Equals(false))
+            if (util.IsValidXML(response).Equals(false))
             {
                 MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
@@ -41,7 +41,7 @@ namespace SPHDecode.Implementations
         {
             byte[] response = null;
 
-            if (util.IsValidXML(Encoding.UTF8.GetString(data)).Equals(false))
+            if (util.IsValidXML((data)).Equals(false))
             {
                 MessageBox.Show("Not a valid config file...", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
