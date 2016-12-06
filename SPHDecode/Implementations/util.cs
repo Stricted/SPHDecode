@@ -31,7 +31,7 @@ namespace SPHDecode.Implementations
             }
             catch (XmlException ex)
             {
-                LogManager.WriteToLog(ex.Message);
+                LogManager.WriteToLog(ex.ToString());
                 return false;
             }
         }
