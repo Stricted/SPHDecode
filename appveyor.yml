@@ -1,0 +1,10 @@
+image: Visual Studio 2015
+platform: Any CPU
+configuration: Release
+skip_tags: true
+
+init:
+  - git config --global core.autocrlf input
+
+before_build:
+  - nuget restore
