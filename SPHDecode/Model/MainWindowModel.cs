@@ -91,7 +91,7 @@ namespace SPHDecode.Model
 				File.WriteAllBytes(dstFile, decode);
 				MessageBox.Show("config decrypted successfully", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
-		}
+	}
 
         public MainWindowModel()
         {
