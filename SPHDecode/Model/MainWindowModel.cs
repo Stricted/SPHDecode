@@ -86,12 +86,12 @@ namespace SPHDecode.Model
             byte[] orig = File.ReadAllBytes(srcFile);
             byte[] decode = util.removeNullByte(Cryptography.Decrypt(orig));
 
-            if (Object.Equals(decode, null).Equals(false))
-            {
-                File.WriteAllBytes(dstFile, decode);
-                MessageBox.Show("config decrypted successfully", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
+			if (Object.Equals(decode, null).Equals(false))
+			{
+				File.WriteAllBytes(dstFile, decode);
+				MessageBox.Show("config decrypted successfully", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+			}
+	}
 
         public MainWindowModel()
         {
