@@ -23,13 +23,15 @@ namespace SPHDecode.Implementations
 				byte[] data;
 				try {
 					data = AESHelper(V3KEY, V3IV, clearText, true);
+					response = Zlib.DecompressData(data);
 				}
 				catch (Exception)
 				{
 					data = AESHelper(V2KEY, V2IV, clearText, true);
+					response = Zlib.DecompressData(data);
 				}
 
-                response = Zlib.DecompressData(data);
+                
             }
             catch (Exception ex)
             {
